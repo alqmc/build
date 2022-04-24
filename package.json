@@ -1,0 +1,7 @@
+{
+    "name": "@alqmc/build",
+    "version": "0.0.1",
+    "description": "build 工具",
+    "author": "alqmc",
+    "license": "MIT"
+}
