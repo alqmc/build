@@ -4,6 +4,9 @@
     "description": "build 工具",
     "author": "alqmc",
     "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "test": "vitest",
         "lint": "eslint -c ./.eslintrc.js --fix --ext .ts",
