@@ -1,11 +1,6 @@
 import { readFile, writeFile } from 'fs/promises';
 import readline from 'readline';
 import chalk from 'chalk';
-import { resolve } from 'path';
-
-import pkg from '../../package.json';
-const pkgPaths = [resolve(__dirname, '../../package.json'), resolve(__dirname, '../package.json')];
-
 /**
  * 修改version
  * @param {string} version
@@ -18,6 +13,7 @@ const changeVersion = (version: string, source: string) => {
       pkg.version = version;
       writeFile(source, JSON.stringify(pkg, null, 2))
         .then(() => {
+          // eslint-disable-next-line no-console
           console.log(chalk.green(`${source}文件，version更改为:${version}`));
         })
         .catch((err) => {
@@ -38,32 +34,59 @@ const changeVersion = (version: string, source: string) => {
 const getVersion = (rl: readline.Interface): Promise<string> => {
   return new Promise((resolve) => {
     rl.question('请输入版本号：', async (version) => {
-      let reg = /^([0-9]\d|[0-9])(\.([0-9]\d|\d)){2}$/;
+      const reg = /^([0-9]\d|[0-9])(\.([0-9]\d|\d)){2}$/;
       if (reg.test(version)) {
         rl.close();
         resolve(version);
       } else {
+        // eslint-disable-next-line no-console
         console.log(chalk.red(`请输入正确的版本号!`));
         resolve(await getVersion(rl));
       }
     });
   });
 };
+export interface VersionOptions {
+  targetPkgPath: string | string[];
+}
 
-(() => {
+/**
+ * 更新指定文件版本号
+ * @param versionOptions
+ * @returns
+ */
+export const updateVersion = async (
+  versionOptions: VersionOptions
+): Promise<Error | void> => {
+  if (!versionOptions) return new Error('versionOptions is required');
+
+  const { targetPkgPath } = versionOptions;
+  if (!targetPkgPath || targetPkgPath.length === 0)
+    return new Error('targetPkgPath is required');
+
+  const pkgList = Array.isArray(targetPkgPath)
+    ? targetPkgPath
+    : [targetPkgPath];
+
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
 
-  rl.question(`是否需要修改(当前:${pkg.version})版本号(Y/N)：`, async (answer) => {
-    if (answer === 'Y' || answer === 'y') {
-      const version = await getVersion(rl);
-      pkgPaths.forEach((pkg) => {
-        changeVersion(version, pkg);
-      });
-    } else {
-      rl.close();
+  const pkgBuffer = await readFile(pkgList[0]);
+  const pkg = JSON.parse(pkgBuffer.toString());
+  if (!pkg.version) return new Error('version not found');
+  rl.question(
+    `是否需要修改(当前:${pkg.version})版本号(Y/N)：`,
+    async (answer) => {
+      if (answer === 'Y' || answer === 'y') {
+        const version = await getVersion(rl);
+        pkgList.forEach((pkg) => {
+          changeVersion(version, pkg);
+        });
+      } else {
+        rl.close();
+      }
     }
-  });
-})();
+  );
+};
