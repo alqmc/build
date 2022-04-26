@@ -17,6 +17,6 @@
     "suppressExcessPropertyErrors": true,
     "lib": ["ESNext", "DOM"]
   },
-  "include": ["package"],
+  "include": ["packages/**/*"],
   "exclude": ["node_modules"]
 }

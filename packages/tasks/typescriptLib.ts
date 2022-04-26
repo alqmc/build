@@ -7,8 +7,8 @@ import glob from 'fast-glob';
 import { rollup } from 'rollup';
 import { Project } from 'ts-morph';
 import { copy, mkdir, writeFile } from 'fs-extra';
-import { getExternal } from '../utils/pkg';
-import { log } from '../utils/log';
+import { getExternal } from '../utils/src/pkg';
+import { log } from '../utils/src/log';
 import type { InputOption, RollupBuild } from 'rollup';
 import type { SourceFile } from 'ts-morph';
 
