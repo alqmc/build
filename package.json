@@ -8,7 +8,7 @@
         "access": "public"
     },
     "repository": {
-        "url": "https://gitee.com/Y_onghu/build.git"
+        "url": "https://github.com/alqmc/build.git"
     },
     "scripts": {
         "test": "vitest",
