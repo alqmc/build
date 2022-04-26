@@ -1,9 +1,9 @@
 import path from 'path';
 import { series } from 'gulp';
-import { createZip, run, withTask } from '../package/utils';
-import { buildTypescriptLib } from '../package/tasks';
+import { createZip, run, withTask } from '../packages/utils';
+import { buildTypescriptLib } from '../packages/tasks';
 
-import pkg from '../package/package.json';
+import pkg from '../packages/package.json';
 import { copyFiles } from './copyFile';
 import { buildOutPath, enterPath, rootPath } from './const';
 

@@ -1,0 +1,28 @@
+{
+    "name": "@alqmc/build-utils",
+    "version": "0.0.1",
+    "description": "build typescript lib",
+    "author": "alqmc",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "peerDependencies": {
+        "typescript": "^4.6.3"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.25",
+        "@types/prettier": "^2.6.0",
+        "@types/archiver": "^5.3.1",
+        "@types/gulp": "^4.0.9",
+        "@types/fs-extra": "^9.0.13",
+        "@pnpm/types": "^8.0.0",
+        "gulp": "^4.0.2"
+    },
+    "dependencies": {
+        "archiver": "^5.3.1",
+        "prettier": "^2.6.2",
+        "chalk": "4.1.2",
+        "fs-extra": "^10.1.0"
+    }
+}
