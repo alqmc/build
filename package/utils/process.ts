@@ -1,8 +1,9 @@
 import { spawn } from 'child_process';
+import { cwd } from 'process';
 import type { TaskFunction } from 'gulp';
 
 // run shell
-export const run = (command: string, dir: string) => {
+export const run = (command: string, dir: string = cwd()) => {
   const [cmd, ...args] = command.split(' ');
   return new Promise<void>((resolve, reject) => {
     const app = spawn(cmd, args, {

@@ -13,13 +13,13 @@ export interface ZipOptions {
  */
 export const createZip = async (zipOptions: ZipOptions) => {
   const { fileName, outPath, enterPath, format } = zipOptions;
-  const output = fs.createWriteStream(`${enterPath}/${fileName}`);
+  const output = fs.createWriteStream(`${outPath}/${fileName}`);
   const archive = archiver(format ? format : 'zip');
   archive.on('error', (err: any) => {
     throw err;
   });
   archive.pipe(output);
-  archive.directory(outPath, false);
+  archive.directory(enterPath, false);
   archive.finalize();
-  log.success(`已打包文件${fileName}==>${outPath}`);
+  log.success(`[打包]:文件${fileName}`);
 };
