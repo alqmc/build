@@ -10,12 +10,12 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
     "noLib": false,
-    "target": "ES2018",
+    "target": "ESNext",
     "sourceMap": true,
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "suppressExcessPropertyErrors": true,
-    "lib": ["ES2018", "DOM"]
+    "lib": ["ESNext", "DOM"]
   },
   "include": ["package"],
   "exclude": ["node_modules"]
