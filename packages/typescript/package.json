@@ -1,23 +1,41 @@
 {
-    "name": "@alqmc/build-typescript",
-    "version": "0.0.1",
-    "description": "build typescript lib",
+    "name": "@alqmc/build-ts",
+    "version": "0.0.1-dev",
+    "description": "build ts lib",
     "author": "alqmc",
     "license": "MIT",
+    "main": "./lib/index.js",
+    "module": "./es/index.mjs",
+    "types": "types",
     "publishConfig": {
         "access": "public"
+    },
+    "exports": {
+        ".": {
+            "require": "./lib/index.js",
+            "import": "./es/index.mjs"
+        },
+        "./es": "./es/index.mjs",
+        "./lib": "./lib/index.js",
+        "./es/*.mjs": "./es/*.mjs",
+        "./es/*": "./es/*.mjs",
+        "./lib/*.js": "./lib/*.js",
+        "./lib/*": "./lib/*.js",
+        "./*": "./*"
     },
     "peerDependencies": {
         "typescript": "^4.6.3"
     },
     "dependencies": {
+        "@alqmc/build-utils": "^0.0.1",
         "@rollup/plugin-commonjs": "^22.0.0",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^13.2.1",
         "esbuild": "^0.14.38",
+        "fast-glob": "^3.2.11",
+        "fs-extra": "^10.1.0",
         "rollup": "^2.70.2",
         "rollup-plugin-esbuild": "^4.9.1",
-        "ts-morph": "^14.0.0",
-        "fast-glob": "^3.2.11"
+        "ts-morph": "^14.0.0"
     }
 }

@@ -17,13 +17,12 @@
         "build": "gulp --require sucrase/register/ts --gulpfile build/gulpfile.ts",
         "log": "npm run changelog",
         "changelog": "conventional-changelog -p custom-config  -i CHANGELOG.md  -s -r 0 -n ./changelog.config.js",
-        "push": "git push gitee master && git push github master"
+        "push": "git push gitee next && git push github next"
     },
     "devDependencies": {
         "@alqmc/eslint-config": "^0.0.3",
-        "@alqmc/build-utils": "workspace:*",
-        "@alqmc/build-typescript": "workspace:*",
-        "@alqmc/build-vue": "workspace:*",
+        "@alqmc/build-utils": "^0.0.1",
+        "@alqmc/build-ts": "^0.0.1",
         "@commitlint/cli": "^9.1.2",
         "@commitlint/config-conventional": "^9.1.2",
         "@types/rimraf": "^3.0.2",
@@ -36,7 +35,9 @@
         "lint-staged": "^10.3.0",
         "sucrase": "^3.21.0",
         "prettier": "^2.6.2",
-        "typescript": "^4.6.3"
+        "typescript": "^4.6.3",
+        "gulp": "^4.0.2",
+        "fs-extra": "^10.1.0"
     },
     "dependencies": {
         "rimraf": "^3.0.2",

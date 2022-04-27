@@ -1,27 +1,25 @@
+//TODO 未完成
 import path from 'path';
 import esbuild from 'rollup-plugin-esbuild';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
-import glob from 'fast-glob';
+import vue from '@vitejs/plugin-vue';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 import { rollup } from 'rollup';
 import { Project } from 'ts-morph';
+import glob from 'fast-glob';
 import { copy, mkdir, writeFile } from 'fs-extra';
 import { getExternal } from '../utils/src/pkg';
 import { log } from '../utils/src/log';
-import type { InputOption, RollupBuild } from 'rollup';
+import type { InputOption, Plugin, RollupBuild } from 'rollup';
 import type { SourceFile } from 'ts-morph';
 
-const plugins = [
-  resolve({
-    preferBuiltins: true,
-  }),
-  json(),
-  commonjs(),
-  esbuild({
-    target: 'node14',
-  }),
-];
+const copyTypes = async (buildOutput: string) => {
+  const src = path.resolve(buildOutput, 'type');
+  await copy(src, path.resolve(buildOutput, 'es'), { recursive: true });
+  await copy(src, path.resolve(buildOutput, 'lib'), { recursive: true });
+};
 
 interface TypescriptOptions {
   input: InputOption;
@@ -30,18 +28,39 @@ interface TypescriptOptions {
   pkgPath: string;
   tsConfigPath: string;
 }
+const getPlugins = (tsConfigPath: string) => {
+  return [
+    vue(),
+    vueJsx(),
+    resolve({
+      preferBuiltins: true,
+    }),
+    json(),
+    commonjs(),
+    esbuild({
+      sourceMap: true,
+      tsconfig: tsConfigPath,
+      loaders: {
+        '.vue': 'ts',
+      },
+    }),
+  ] as Plugin[];
+};
 
-const buildModules = async (input: InputOption, pkgPath: string) => {
+const buildModules = async (
+  input: InputOption,
+  pkgPath: string,
+  plugin: Plugin[]
+) => {
   const bundle = await rollup({
     input,
     external: await getExternal({
       outputPackage: path.resolve(__dirname, pkgPath),
     }),
-    plugins,
+    plugin,
   });
   return bundle;
 };
-
 const writeBundles = async (
   bundle: RollupBuild,
   options: TypescriptOptions
@@ -59,12 +78,6 @@ const writeBundles = async (
     entryFileNames: '[name].js',
     exports: 'named',
   });
-};
-
-const copyTypes = async (buildOutput: string) => {
-  const src = path.resolve(buildOutput, 'type');
-  await copy(src, path.resolve(buildOutput, 'es'), { recursive: true });
-  await copy(src, path.resolve(buildOutput, 'lib'), { recursive: true });
 };
 
 const generateTypesDefinitions = async (options: TypescriptOptions) => {
@@ -124,10 +137,12 @@ const generateTypesDefinitions = async (options: TypescriptOptions) => {
   await Promise.all(tasks);
   await copyTypes(options.outPutPath);
 };
+export const buildVueLib = async (options: TypescriptOptions) => {
+  const { pkgPath, tsConfigPath } = options;
 
-export const buildTypescriptLib = async (options: TypescriptOptions) => {
-  const { pkgPath } = options;
-  const bundle = await buildModules(options.input, pkgPath);
+  const plugins = getPlugins(tsConfigPath);
+  const bundle = await buildModules(options.input, pkgPath, plugins);
+
   await writeBundles(bundle, options);
   await generateTypesDefinitions(options);
 };
