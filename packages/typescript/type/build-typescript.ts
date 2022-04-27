@@ -7,10 +7,13 @@ export interface BaseOptions {
   tsConfigPath: string;
 }
 export type PluginOptions = Plugin[];
-
+export type MergeType = 'prefix' | 'sufix' | 'overlap';
 export interface DefineLibConfig {
   baseOptions: BaseOptions;
-  pluginOptions?: PluginOptions;
+  pluginOptions?: {
+    mergeType: MergeType;
+    plugins: PluginOptions;
+  };
   externalOptions?: ExternalOption;
   extraOptions?: Record<string, any>;
 }

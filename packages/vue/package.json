@@ -5,23 +5,9 @@
     "author": "alqmc",
     "license": "MIT",
     "types": "types",
-    "main": "./lib/index.js",
-    "module": "./es/index.mjs",
-    "publishConfig": {
-        "access": "public"
-    },
-    "exports": {
-        ".": {
-            "require": "./lib/index.js",
-            "import": "./es/index.mjs"
-        },
-        "./es": "./es/index.mjs",
-        "./lib": "./lib/index.js",
-        "./es/*.mjs": "./es/*.mjs",
-        "./es/*": "./es/*.mjs",
-        "./lib/*.js": "./lib/*.js",
-        "./lib/*": "./lib/*.js",
-        "./*": "./*"
+    "main": "index.ts",
+    "peerDependencies": {
+        "vue": "^3.2.25"
     },
     "dependencies": {
         "@rollup/plugin-commonjs": "^22.0.0",
