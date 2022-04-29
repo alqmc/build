@@ -17,7 +17,7 @@ const buildModules = async ({
     external: extraOptions
       ? externalOptions
       : await getExternal({
-          outputPackage: path.resolve(__dirname, baseOptions.pkgPath),
+          outputPackage: baseOptions.pkgPath,
         }),
     plugins: generatePlugin(baseOptions, pluginOptions),
     ...extraOptions,

@@ -1,6 +1,6 @@
 {
     "name": "@alqmc/build-utils",
-    "version": "0.0.1-dev",
+    "version": "0.0.3-dev",
     "description": "build utils lib",
     "author": "alqmc",
     "license": "MIT",

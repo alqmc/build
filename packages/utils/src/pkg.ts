@@ -18,14 +18,23 @@ export const getPackageManifest = (pkgPath: string) => {
 };
 
 // 获取打包忽略引用文件
-export const getExternal = async (options: { outputPackage: string }) => {
+export const getExternal = async (options: {
+  outputPackage: string;
+  extraExternal?: string[];
+}) => {
   const { peerDependencies, dependencies } = getPackageDependencies(
     options.outputPackage
   );
-
+  const extraExternal = Array.isArray(options.extraExternal)
+    ? options.extraExternal
+    : [];
   return (id: string) => {
-    const packages: string[] = peerDependencies;
-    packages.push('fs/promises', ...dependencies);
+    const packages: string[] = [
+      ...peerDependencies,
+      ...dependencies,
+      ...extraExternal,
+    ];
+    console.log('🔥log=>pkg=>37:packages:%o', packages);
     return [...new Set(packages)].some(
       (pkg) => id === pkg || id.startsWith(`${pkg}/`)
     );

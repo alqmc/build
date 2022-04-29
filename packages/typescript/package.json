@@ -1,6 +1,6 @@
 {
     "name": "@alqmc/build-ts",
-    "version": "0.0.1-dev",
+    "version": "0.0.3-dev",
     "description": "build ts lib",
     "author": "alqmc",
     "license": "MIT",
@@ -27,7 +27,7 @@
         "typescript": "^4.6.3"
     },
     "dependencies": {
-        "@alqmc/build-utils": "^0.0.1",
+        "@alqmc/build-utils": "^0.0.3",
         "@rollup/plugin-commonjs": "^22.0.0",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^13.2.1",

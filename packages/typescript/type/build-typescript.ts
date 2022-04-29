@@ -6,14 +6,14 @@ export interface BaseOptions {
   pkgPath: string;
   tsConfigPath: string;
 }
-export type PluginOptions = Plugin[];
+export type PluginOptions = {
+  mergeType: MergeType;
+  plugins: Plugin[];
+};
 export type MergeType = 'prefix' | 'sufix' | 'overlap';
 export interface DefineLibConfig {
   baseOptions: BaseOptions;
-  pluginOptions?: {
-    mergeType: MergeType;
-    plugins: PluginOptions;
-  };
+  pluginOptions?: PluginOptions;
   externalOptions?: ExternalOption;
   extraOptions?: Record<string, any>;
 }

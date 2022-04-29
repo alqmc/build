@@ -1,7 +1,8 @@
 import path from 'path';
+import vueCompiler from '@vue/compiler-sfc';
 import glob from 'fast-glob';
 import { Project } from 'ts-morph';
-import { copy, mkdir, writeFile } from 'fs-extra';
+import { copy, mkdir, readFile, writeFile } from 'fs-extra';
 import { log } from '@alqmc/build-utils';
 import type { BaseOptions } from '../type/build-vue';
 import type { SourceFile } from 'ts-morph';
@@ -22,16 +23,40 @@ export const generateTypesDefinitions = async (baseOptions: BaseOptions) => {
     skipAddingFilesFromTsConfig: true,
     tsConfigFilePath: path.resolve(__dirname, baseOptions.tsConfigPath),
   });
-  const filePaths = await glob(['**/*.ts', '!node_modules'], {
-    cwd: baseOptions.enterPath,
-    absolute: true,
-    onlyFiles: true,
-  });
+  const filePaths = await glob(
+    ['**/*.{ts,vue}', '!node_modules', '!dist', '!**/*.d.ts'],
+    {
+      cwd: baseOptions.enterPath,
+      absolute: true,
+      onlyFiles: true,
+    }
+  );
   const sourceFiles: SourceFile[] = [];
   await Promise.all([
     ...filePaths.map(async (file) => {
-      const sourceFile = project.addSourceFileAtPath(file);
-      sourceFiles.push(sourceFile);
+      if (file.endsWith('.vue')) {
+        const fileContent = await readFile(file, 'utf-8');
+        const sfc = vueCompiler.parse(fileContent);
+        const { script } = sfc.descriptor;
+        if (script) {
+          let content = '';
+          let isTS = false;
+          if (script && script.content) {
+            content += script.content;
+            if (script.lang === 'ts' || script.lang === 'tsx') {
+              isTS = true;
+            }
+          }
+          const _path =
+            path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js');
+          const sourceFile = project.createSourceFile(_path, content);
+
+          sourceFiles.push(sourceFile);
+        }
+      } else {
+        const sourceFile = project.addSourceFileAtPath(file);
+        sourceFiles.push(sourceFile);
+      }
     }),
   ]);
 

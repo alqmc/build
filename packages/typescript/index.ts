@@ -14,7 +14,7 @@ const buildModules = async ({
 }: DefineLibConfig) => {
   const bundle = await rollup({
     input: baseOptions.input,
-    external: extraOptions
+    external: externalOptions
       ? externalOptions
       : await getExternal({
           outputPackage: path.resolve(__dirname, baseOptions.pkgPath),

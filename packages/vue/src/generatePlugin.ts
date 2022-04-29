@@ -29,7 +29,7 @@ export const generatePlugin = (
         '.vue': 'ts',
       },
     }),
-  ];
+  ] as Plugin[];
   if (pluginOptions.mergeType === 'overlap') return pluginOptions.plugins;
   return mergePlugins(
     defaultOptions,

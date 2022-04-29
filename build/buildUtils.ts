@@ -1,20 +1,22 @@
 import { resolve } from 'path';
 import { series } from 'gulp';
-import { createZip, updateVersion, withTask } from '@alqmc/build-utils';
+import { createZip, getExternal, withTask } from '@alqmc/build-utils';
 import { copyFile, emptyDir } from 'fs-extra';
 import { buildTypescriptLib } from '@alqmc/build-ts';
 import pkg from '../packages/typescript/package.json';
-import { buildOutPath, enterPath, rootPath } from './const';
+import { buildOutPath, enterPath, versionPath } from './const';
 const utils = {
   input: resolve(enterPath, 'utils/index.ts'),
-  outPutPath: resolve(buildOutPath, 'build-utils'),
+  outPutPath: resolve(buildOutPath, 'utils/dist'),
   enterPath: resolve(enterPath, 'utils'),
   pkgPath: resolve(enterPath, 'utils/package.json'),
   tsConfigPath: resolve(enterPath, 'utils/tsconfig.json'),
 };
 export const buildutils = series(
   withTask('clear', async () => {
-    await emptyDir(utils.outPutPath);
+    try {
+      await emptyDir(utils.outPutPath);
+    } catch (error) {}
   }),
   withTask('build', async () => {
     await buildTypescriptLib({
@@ -25,6 +27,10 @@ export const buildutils = series(
         pkgPath: utils.pkgPath,
         tsConfigPath: utils.tsConfigPath,
       },
+      externalOptions: await getExternal({
+        outputPackage: utils.pkgPath,
+        extraExternal: ['fs/promises'],
+      }),
     });
   }),
   withTask('copyfile', async () => {
@@ -36,16 +42,11 @@ export const buildutils = series(
       ),
     ]);
   }),
-  withTask('update-version', async () => {
-    await updateVersion({
-      targetPkgPath: [resolve(utils.outPutPath, 'package.json')],
-    });
-  }),
   withTask('createZip', async () => {
     await createZip({
       fileName: `build-utils-v${pkg.version}.zip`,
       enterPath: utils.outPutPath,
-      outPath: rootPath,
+      outPath: versionPath,
     });
   })
 );
