@@ -4,7 +4,11 @@ import { getExternal } from '@alqmc/build-utils';
 import { generateTypesDefinitions } from './src/generateType';
 import { generatePlugin } from './src/generatePlugin';
 import type { RollupBuild } from 'rollup';
-import type { DefineLibConfig } from './type/build-vue';
+import type {
+  BaseOptions,
+  BuildProduct,
+  DefineLibConfig,
+} from './type/build-vue';
 
 const buildModules = async ({
   baseOptions,
@@ -25,20 +29,28 @@ const buildModules = async ({
   return bundle;
 };
 
-const writeBundles = async (bundle: RollupBuild, outPutPath: string) => {
-  bundle.write({
-    format: 'es',
-    dir: path.resolve(outPutPath, 'es'),
-    preserveModules: true,
-    entryFileNames: '[name].mjs',
-  });
-  bundle.write({
-    format: 'cjs',
-    dir: path.resolve(outPutPath, 'lib'),
-    preserveModules: true,
-    entryFileNames: '[name].js',
-    exports: 'named',
-  });
+const writeBundles = async (
+  bundle: RollupBuild,
+  baseOptions: BaseOptions,
+  buildProduct: BuildProduct[]
+) => {
+  if (buildProduct.includes('es')) {
+    bundle.write({
+      format: 'es',
+      dir: path.resolve(baseOptions.outPutPath, 'es'),
+      preserveModules: true,
+      entryFileNames: '[name].mjs',
+    });
+  }
+  if (buildProduct.includes('lib')) {
+    bundle.write({
+      format: 'cjs',
+      dir: path.resolve(baseOptions.outPutPath, 'lib'),
+      preserveModules: true,
+      entryFileNames: '[name].js',
+      exports: 'named',
+    });
+  }
 };
 
 export const buildVueLib = async ({
@@ -46,6 +58,7 @@ export const buildVueLib = async ({
   pluginOptions,
   externalOptions,
   extraOptions,
+  buildProduct = ['es', 'lib', 'type'],
 }: DefineLibConfig) => {
   const bundle = await buildModules({
     baseOptions,
@@ -53,6 +66,8 @@ export const buildVueLib = async ({
     externalOptions,
     extraOptions,
   });
-  await writeBundles(bundle, baseOptions.outPutPath);
-  await generateTypesDefinitions(baseOptions);
+  await writeBundles(bundle, baseOptions, buildProduct);
+  if (buildProduct.includes('type')) {
+    await generateTypesDefinitions(baseOptions, buildProduct);
+  }
 };

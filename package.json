@@ -17,12 +17,12 @@
         "build": "gulp --require sucrase/register/ts --gulpfile build/gulpfile.ts",
         "log": "npm run changelog",
         "changelog": "conventional-changelog -p custom-config  -i CHANGELOG.md  -s -r 0 -n ./changelog.config.js",
-        "push": "git push gitee next && git push github next"
+        "push": "git push gitee master && git push github master"
     },
     "devDependencies": {
         "@alqmc/build-ts": "^0.0.3",
         "@alqmc/build-utils": "^0.0.3",
-        "@alqmc/eslint-config": "^0.0.3",
+        "@alqmc/eslint-config": "^0.0.4",
         "@commitlint/cli": "^9.1.2",
         "@commitlint/config-conventional": "^9.1.2",
         "@types/rimraf": "^3.0.2",

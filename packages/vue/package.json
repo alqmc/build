@@ -1,6 +1,6 @@
 {
     "name": "@alqmc/build-vue",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "build vue lib",
     "license": "MIT",
     "main": "./lib/index.js",

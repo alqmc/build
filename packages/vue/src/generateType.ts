@@ -4,15 +4,22 @@ import glob from 'fast-glob';
 import { Project } from 'ts-morph';
 import { copy, mkdir, readFile, writeFile } from 'fs-extra';
 import { log } from '@alqmc/build-utils';
-import type { BaseOptions } from '../type/build-vue';
+import type { BaseOptions, BuildProduct } from '../type/build-vue';
 import type { SourceFile } from 'ts-morph';
 
-const copyTypes = async (buildOutput: string) => {
+const copyTypes = async (buildOutput: string, buildProduct: BuildProduct[]) => {
   const src = path.resolve(buildOutput, 'types');
-  await copy(src, path.resolve(buildOutput, 'es'), { recursive: true });
-  await copy(src, path.resolve(buildOutput, 'lib'), { recursive: true });
+  if (buildProduct.includes('es')) {
+    await copy(src, path.resolve(buildOutput, 'es'), { recursive: true });
+  }
+  if (buildProduct.includes('lib')) {
+    await copy(src, path.resolve(buildOutput, 'lib'), { recursive: true });
+  }
 };
-export const generateTypesDefinitions = async (baseOptions: BaseOptions) => {
+export const generateTypesDefinitions = async (
+  baseOptions: BaseOptions,
+  buildProduct: BuildProduct[]
+) => {
   const project = new Project({
     compilerOptions: {
       emitDeclarationOnly: true,
@@ -61,7 +68,6 @@ export const generateTypesDefinitions = async (baseOptions: BaseOptions) => {
   ]);
 
   const diagnostics = project.getPreEmitDiagnostics();
-  // eslint-disable-next-line no-console
   console.log(project.formatDiagnosticsWithColorAndContext(diagnostics));
 
   await project.emit({
@@ -93,5 +99,6 @@ export const generateTypesDefinitions = async (baseOptions: BaseOptions) => {
     await Promise.all(tasks);
   });
   await Promise.all(tasks);
-  await copyTypes(baseOptions.outPutPath);
+  if (buildProduct.includes('type'))
+    await copyTypes(baseOptions.outPutPath, buildProduct);
 };

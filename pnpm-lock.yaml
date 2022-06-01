@@ -6,7 +6,7 @@ importers:
     specifiers:
       '@alqmc/build-ts': ^0.0.3
       '@alqmc/build-utils': ^0.0.3
-      '@alqmc/eslint-config': ^0.0.3
+      '@alqmc/eslint-config': ^0.0.4
       '@commitlint/cli': ^9.1.2
       '@commitlint/config-conventional': ^9.1.2
       '@types/rimraf': ^3.0.2
@@ -32,7 +32,7 @@ importers:
     devDependencies:
       '@alqmc/build-ts': 0.0.3_typescript@4.6.4
       '@alqmc/build-utils': 0.0.3_typescript@4.6.4
-      '@alqmc/eslint-config': 0.0.3_prettier@2.6.2+typescript@4.6.4
+      '@alqmc/eslint-config': 0.0.4_prettier@2.6.2+typescript@4.6.4
       '@commitlint/cli': 9.1.2
       '@commitlint/config-conventional': 9.1.2
       '@types/rimraf': 3.0.2
@@ -163,8 +163,8 @@ packages:
       prettier: 2.6.2
       typescript: 4.6.4
 
-  /@alqmc/eslint-config/0.0.3_prettier@2.6.2+typescript@4.6.4:
-    resolution: {integrity: sha512-dMU/mNyUH7uVBQQPVlStVtDPn0iTQhjZarANvO+J8iiQ1xkfvoXR3HS6EpUqb6Ks7KXm10esW6CNXiVaXa3fiw==}
+  /@alqmc/eslint-config/0.0.4_prettier@2.6.2+typescript@4.6.4:
+    resolution: {integrity: sha512-R7jzzTYlebzG1WI8gRdYa6nD8T7C6bdLn6BwgynQ4p7U6zSr7AqBi9ULsMpibTbxzhcPdvbDaPSYdizyPuSaPQ==}
     peerDependencies:
       prettier: ^2.6.2
       typescript: ^4.6.0
@@ -918,7 +918,7 @@ packages:
     dev: true
 
   /@types/json5/0.0.29:
-    resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
+    resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
   /@types/mdast/3.0.10:
@@ -1643,7 +1643,7 @@ packages:
       readable-stream: 3.6.0
 
   /boolbase/1.0.0:
-    resolution: {integrity: sha1-aN/1++YMUes3cl6p4+0xDcwed24=}
+    resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
     dev: true
 
   /brace-expansion/1.1.11:
@@ -1865,7 +1865,7 @@ packages:
     dev: true
 
   /clean-regexp/1.0.0:
-    resolution: {integrity: sha1-jffHquUf02h06PjQW5GAvBGj/tc=}
+    resolution: {integrity: sha512-GfisEZEJvzKrmGWkvfhgzcz/BllN1USeqD2V6tg14OAOgaCD2Z/PUEuxnAZ/nPvmaHRG7a8y77p1T/IRQ4D1Hw==}
     engines: {node: '>=4'}
     dependencies:
       escape-string-regexp: 1.0.5
@@ -3260,7 +3260,7 @@ packages:
     dev: true
 
   /fast-levenshtein/2.0.6:
-    resolution: {integrity: sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=}
+    resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
     dev: true
 
   /fastq/1.13.0:
@@ -3491,7 +3491,7 @@ packages:
     resolution: {integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==}
 
   /functional-red-black-tree/1.0.1:
-    resolution: {integrity: sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=}
+    resolution: {integrity: sha512-dsKNQNdj6xA3T+QlADDA7mOSlX0qiMINjn0cgr+eGHGsbSHzTabcIogz2+p/iqP1Xs6EP/sS2SbqH+brGTbq0g==}
     dev: true
 
   /gensync/1.0.0-beta.2:
@@ -3935,7 +3935,7 @@ packages:
     dev: true
 
   /imurmurhash/0.1.4:
-    resolution: {integrity: sha1-khi5srkoojixPcT7a21XbyMUU+o=}
+    resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
     engines: {node: '>=0.8.19'}
     dev: true
 
@@ -4906,7 +4906,7 @@ packages:
     dev: true
 
   /natural-compare/1.4.0:
-    resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
+    resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
   /neo-async/2.6.2:
