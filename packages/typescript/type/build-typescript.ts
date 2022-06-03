@@ -19,4 +19,5 @@ export interface DefineLibConfig {
   externalOptions?: ExternalOption;
   extraOptions?: Record<string, any>;
   buildProduct?: BuildProduct[];
+  pureOutput?: boolean;
 }

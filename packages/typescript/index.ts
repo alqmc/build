@@ -32,12 +32,15 @@ const buildModules = async ({
 const writeBundles = async (
   bundle: RollupBuild,
   baseOptions: BaseOptions,
-  buildProduct: BuildProduct[]
+  buildProduct: BuildProduct[],
+  onlyOutput: boolean
 ) => {
   if (buildProduct.includes('es')) {
     bundle.write({
       format: 'es',
-      dir: path.resolve(baseOptions.outPutPath, 'es'),
+      dir: onlyOutput
+        ? baseOptions.outPutPath
+        : path.resolve(baseOptions.outPutPath, 'es'),
       preserveModules: true,
       entryFileNames: '[name].mjs',
     });
@@ -45,7 +48,9 @@ const writeBundles = async (
   if (buildProduct.includes('lib')) {
     bundle.write({
       format: 'cjs',
-      dir: path.resolve(baseOptions.outPutPath, 'lib'),
+      dir: onlyOutput
+        ? baseOptions.outPutPath
+        : path.resolve(baseOptions.outPutPath, 'lib'),
       preserveModules: true,
       entryFileNames: '[name].js',
       exports: 'named',
@@ -53,12 +58,14 @@ const writeBundles = async (
   }
 };
 
+export * from './type/build-typescript';
 export const buildTypescriptLib = async ({
   baseOptions,
   pluginOptions,
   externalOptions,
   extraOptions,
   buildProduct = ['lib', 'es', 'type'],
+  pureOutput = false,
 }: DefineLibConfig) => {
   const bundle = await buildModules({
     baseOptions,
@@ -66,8 +73,9 @@ export const buildTypescriptLib = async ({
     externalOptions,
     extraOptions,
   });
-  await writeBundles(bundle, baseOptions, buildProduct);
+  const onlyOutput = buildProduct.length === 1 && pureOutput;
+  await writeBundles(bundle, baseOptions, buildProduct, onlyOutput);
   if (buildProduct.includes('type')) {
-    await generateTypesDefinitions(baseOptions, buildProduct);
+    await generateTypesDefinitions(baseOptions, buildProduct, onlyOutput);
   }
 };

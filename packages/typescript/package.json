@@ -1,6 +1,6 @@
 {
     "name": "@alqmc/build-ts",
-    "version": "0.0.4-dev",
+    "version": "0.0.6-dev",
     "description": "build ts lib",
     "author": "alqmc",
     "license": "MIT",
