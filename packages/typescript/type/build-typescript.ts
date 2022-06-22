@@ -1,12 +1,20 @@
-import type { ExternalOption, InputOption, Plugin } from 'rollup';
+import type {
+  ExternalOption,
+  InputOption,
+  OutputOptions,
+  Plugin,
+} from 'rollup';
 
 export type BuildProduct = 'type' | 'lib' | 'es';
+
 export interface BaseOptions {
   input: InputOption;
   outPutPath: string;
   enterPath: string;
   pkgPath: string;
   tsConfigPath: string;
+  preserveModules?: boolean;
+  extraOptions?: Partial<OutputOptions>;
 }
 export type PluginOptions = {
   mergeType: MergeType;

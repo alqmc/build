@@ -1,5 +1,5 @@
 {
-    "package/**/*.{tsx,ts}": [
+    "packages/**/*.{tsx,ts}": [
         "eslint -c ./.eslintrc.js --fix --ext .tsx,.ts"
     ]
 }

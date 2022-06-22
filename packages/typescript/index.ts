@@ -36,25 +36,27 @@ const writeBundles = async (
   onlyOutput: boolean
 ) => {
   if (buildProduct.includes('es')) {
-    bundle.write({
+    const baseOutOptions = {
       format: 'es',
       dir: onlyOutput
         ? baseOptions.outPutPath
         : path.resolve(baseOptions.outPutPath, 'es'),
-      preserveModules: true,
+      preserveModules: baseOptions.preserveModules ?? true,
       entryFileNames: '[name].mjs',
-    });
+    };
+    bundle.write(Object.assign(baseOutOptions, baseOptions.extraOptions || {}));
   }
   if (buildProduct.includes('lib')) {
-    bundle.write({
+    const baseOutOptions = {
       format: 'cjs',
       dir: onlyOutput
         ? baseOptions.outPutPath
         : path.resolve(baseOptions.outPutPath, 'lib'),
-      preserveModules: true,
+      preserveModules: baseOptions.preserveModules ?? true,
       entryFileNames: '[name].js',
       exports: 'named',
-    });
+    };
+    bundle.write(Object.assign(baseOutOptions, baseOptions.extraOptions || {}));
   }
 };
 

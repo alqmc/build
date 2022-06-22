@@ -3,4 +3,4 @@ import { buildTypescript } from './buildTypescript';
 import { buildutils } from './buildUtils';
 import { buildvueLib } from './buildVue';
 
-export default series(buildutils, buildvueLib, buildTypescript);
+export default series(buildTypescript);
