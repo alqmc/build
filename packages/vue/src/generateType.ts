@@ -7,18 +7,39 @@ import { log } from '@alqmc/build-utils';
 import type { BaseOptions, BuildProduct } from '../type/build-vue';
 import type { SourceFile } from 'ts-morph';
 
-const copyTypes = async (buildOutput: string, buildProduct: BuildProduct[]) => {
-  const src = path.resolve(buildOutput, 'types');
+const copyTypes = async (
+  baseOptions: BaseOptions,
+  buildProduct: BuildProduct[],
+  onlyOutput: boolean
+) => {
+  const src = path.resolve(baseOptions.outPutPath, 'types');
   if (buildProduct.includes('es')) {
-    await copy(src, path.resolve(buildOutput, 'es'), { recursive: true });
+    await copy(
+      src,
+      onlyOutput
+        ? baseOptions.outPutPath
+        : path.resolve(baseOptions.outPutPath, 'es'),
+      {
+        recursive: true,
+      }
+    );
   }
   if (buildProduct.includes('lib')) {
-    await copy(src, path.resolve(buildOutput, 'lib'), { recursive: true });
+    await copy(
+      src,
+      onlyOutput
+        ? baseOptions.outPutPath
+        : path.resolve(baseOptions.outPutPath, 'lib'),
+      {
+        recursive: true,
+      }
+    );
   }
 };
 export const generateTypesDefinitions = async (
   baseOptions: BaseOptions,
-  buildProduct: BuildProduct[]
+  buildProduct: BuildProduct[],
+  onlyOutput: boolean
 ) => {
   const project = new Project({
     compilerOptions: {
@@ -100,5 +121,5 @@ export const generateTypesDefinitions = async (
   });
   await Promise.all(tasks);
   if (buildProduct.includes('type'))
-    await copyTypes(baseOptions.outPutPath, buildProduct);
+    await copyTypes(baseOptions, buildProduct, onlyOutput);
 };

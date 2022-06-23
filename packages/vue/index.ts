@@ -32,24 +32,31 @@ const buildModules = async ({
 const writeBundles = async (
   bundle: RollupBuild,
   baseOptions: BaseOptions,
-  buildProduct: BuildProduct[]
+  buildProduct: BuildProduct[],
+  onlyOutput: boolean
 ) => {
   if (buildProduct.includes('es')) {
-    bundle.write({
+    const baseOutOptions = {
       format: 'es',
-      dir: path.resolve(baseOptions.outPutPath, 'es'),
-      preserveModules: true,
+      dir: onlyOutput
+        ? baseOptions.outPutPath
+        : path.resolve(baseOptions.outPutPath, 'es'),
+      preserveModules: baseOptions.preserveModules ?? true,
       entryFileNames: '[name].mjs',
-    });
+    };
+    bundle.write(Object.assign(baseOutOptions, baseOptions.extraOptions || {}));
   }
   if (buildProduct.includes('lib')) {
-    bundle.write({
+    const baseOutOptions = {
       format: 'cjs',
-      dir: path.resolve(baseOptions.outPutPath, 'lib'),
-      preserveModules: true,
+      dir: onlyOutput
+        ? baseOptions.outPutPath
+        : path.resolve(baseOptions.outPutPath, 'lib'),
+      preserveModules: baseOptions.preserveModules ?? true,
       entryFileNames: '[name].js',
       exports: 'named',
-    });
+    };
+    bundle.write(Object.assign(baseOutOptions, baseOptions.extraOptions || {}));
   }
 };
 
@@ -59,6 +66,7 @@ export const buildVueLib = async ({
   externalOptions,
   extraOptions,
   buildProduct = ['es', 'lib', 'type'],
+  pureOutput = false,
 }: DefineLibConfig) => {
   const bundle = await buildModules({
     baseOptions,
@@ -66,8 +74,9 @@ export const buildVueLib = async ({
     externalOptions,
     extraOptions,
   });
-  await writeBundles(bundle, baseOptions, buildProduct);
+  const onlyOutput = buildProduct.length === 1 && pureOutput;
+  await writeBundles(bundle, baseOptions, buildProduct, onlyOutput);
   if (buildProduct.includes('type')) {
-    await generateTypesDefinitions(baseOptions, buildProduct);
+    await generateTypesDefinitions(baseOptions, buildProduct, onlyOutput);
   }
 };

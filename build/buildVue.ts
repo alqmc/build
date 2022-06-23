@@ -3,7 +3,7 @@ import { series } from 'gulp';
 import { createZip, withTask } from '@alqmc/build-utils';
 import { copyFile, emptyDir } from 'fs-extra';
 import { buildTypescriptLib } from '@alqmc/build-ts';
-import pkg from '../packages/typescript/package.json';
+import pkg from '../packages/vue/package.json';
 import { buildOutPath, enterPath, versionPath } from './const';
 const vueLib = {
   input: resolve(enterPath, 'vue/index.ts'),
