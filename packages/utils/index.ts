@@ -4,6 +4,7 @@ import { updateVersion } from './src/version';
 import { createZip } from './src/buildZip';
 import { run, withTask } from './src/process';
 import { getExternal } from './src/pkg';
+import { copy, copyFile } from './src/copyfile';
 export {
   formatCode,
   log,
@@ -12,4 +13,6 @@ export {
   run,
   withTask,
   getExternal,
+  copy,
+  copyFile,
 };

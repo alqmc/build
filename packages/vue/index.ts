@@ -7,7 +7,7 @@ import type { RollupBuild } from 'rollup';
 import type {
   BaseOptions,
   BuildProduct,
-  DefineLibConfig,
+  DefineVueConfig,
 } from './type/build-vue';
 
 const buildModules = async ({
@@ -15,13 +15,15 @@ const buildModules = async ({
   pluginOptions,
   externalOptions,
   extraOptions,
-}: DefineLibConfig) => {
+  includePackages,
+}: DefineVueConfig) => {
   const bundle = await rollup({
     input: baseOptions.input,
     external: extraOptions
       ? externalOptions
       : await getExternal({
           outputPackage: baseOptions.pkgPath,
+          includePackages: includePackages || [],
         }),
     plugins: generatePlugin(baseOptions, pluginOptions),
     ...extraOptions,
@@ -67,12 +69,14 @@ export const buildVueLib = async ({
   extraOptions,
   buildProduct = ['es', 'lib', 'type'],
   pureOutput = false,
-}: DefineLibConfig) => {
+  includePackages,
+}: DefineVueConfig) => {
   const bundle = await buildModules({
     baseOptions,
     pluginOptions,
     externalOptions,
     extraOptions,
+    includePackages,
   });
   const onlyOutput = buildProduct.length === 1 && pureOutput;
   await writeBundles(bundle, baseOptions, buildProduct, onlyOutput);
@@ -80,3 +84,5 @@ export const buildVueLib = async ({
     await generateTypesDefinitions(baseOptions, buildProduct, onlyOutput);
   }
 };
+
+export * from './type/build-vue';

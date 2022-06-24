@@ -21,6 +21,7 @@ export const getPackageManifest = (pkgPath: string) => {
 export const getExternal = async (options: {
   outputPackage: string;
   extraExternal?: string[];
+  includePackages: string[];
 }) => {
   const { peerDependencies, dependencies } = getPackageDependencies(
     options.outputPackage
@@ -33,8 +34,7 @@ export const getExternal = async (options: {
       ...peerDependencies,
       ...dependencies,
       ...extraExternal,
-    ];
-    console.log('🔥log=>pkg=>37:packages:%o', packages);
+    ].filter((x) => !options.includePackages.includes(x));
     return [...new Set(packages)].some(
       (pkg) => id === pkg || id.startsWith(`${pkg}/`)
     );

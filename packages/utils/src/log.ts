@@ -1,11 +1,9 @@
-/* eslint-disable no-console */
-import chalk from 'chalk';
+import { green, lightBlue, lightYellow, red } from 'kolorist';
 
-const { green, red, yellowBright, blueBright } = chalk;
 const success = (msg: string) => console.log(green(msg));
 const error = (msg: string) => console.log(red(msg));
-const warning = (msg: string) => console.log(yellowBright(msg));
-const info = (msg: string) => console.log(blueBright(msg));
+const warning = (msg: string) => console.log(lightYellow(msg));
+const info = (msg: string) => console.log(lightBlue(msg));
 
 /**
  * 控制台日志

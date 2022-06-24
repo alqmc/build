@@ -1,5 +1,6 @@
 import { spawn } from 'child_process';
 import { cwd } from 'process';
+import 'undertaker';
 import type { TaskFunction } from 'gulp';
 
 // run shell

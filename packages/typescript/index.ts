@@ -1,4 +1,4 @@
-import path from 'path';
+import { resolve } from 'path';
 import { rollup } from 'rollup';
 import { getExternal } from '@alqmc/build-utils';
 import { generateTypesDefinitions } from './src/generateType';
@@ -7,7 +7,7 @@ import type { RollupBuild } from 'rollup';
 import type {
   BaseOptions,
   BuildProduct,
-  DefineLibConfig,
+  DefineTsConfig,
 } from './type/build-typescript';
 
 const buildModules = async ({
@@ -15,13 +15,15 @@ const buildModules = async ({
   pluginOptions,
   externalOptions,
   extraOptions,
-}: DefineLibConfig) => {
+  includePackages,
+}: DefineTsConfig) => {
   const bundle = await rollup({
     input: baseOptions.input,
     external: externalOptions
       ? externalOptions
       : await getExternal({
-          outputPackage: path.resolve(__dirname, baseOptions.pkgPath),
+          outputPackage: resolve(__dirname, baseOptions.pkgPath),
+          includePackages: includePackages || [],
         }),
     plugins: generatePlugin(baseOptions, pluginOptions),
     ...extraOptions,
@@ -40,7 +42,7 @@ const writeBundles = async (
       format: 'es',
       dir: onlyOutput
         ? baseOptions.outPutPath
-        : path.resolve(baseOptions.outPutPath, 'es'),
+        : resolve(baseOptions.outPutPath, 'es'),
       preserveModules: baseOptions.preserveModules ?? true,
       entryFileNames: '[name].mjs',
     };
@@ -51,7 +53,7 @@ const writeBundles = async (
       format: 'cjs',
       dir: onlyOutput
         ? baseOptions.outPutPath
-        : path.resolve(baseOptions.outPutPath, 'lib'),
+        : resolve(baseOptions.outPutPath, 'lib'),
       preserveModules: baseOptions.preserveModules ?? true,
       entryFileNames: '[name].js',
       exports: 'named',
@@ -68,12 +70,14 @@ export const buildTypescriptLib = async ({
   extraOptions,
   buildProduct = ['lib', 'es', 'type'],
   pureOutput = false,
-}: DefineLibConfig) => {
+  includePackages,
+}: DefineTsConfig) => {
   const bundle = await buildModules({
     baseOptions,
     pluginOptions,
     externalOptions,
     extraOptions,
+    includePackages,
   });
   const onlyOutput = buildProduct.length === 1 && pureOutput;
   await writeBundles(bundle, baseOptions, buildProduct, onlyOutput);

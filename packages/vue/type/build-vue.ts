@@ -19,10 +19,11 @@ export type PluginOptions = {
   plugins: Plugin[];
 };
 export type MergeType = 'prefix' | 'sufix' | 'overlap';
-export interface DefineLibConfig {
+export interface DefineVueConfig {
   baseOptions: BaseOptions;
   pluginOptions?: PluginOptions;
   externalOptions?: ExternalOption;
+  includePackages?: string[];
   extraOptions?: Record<string, any>;
   buildProduct?: BuildProduct[];
   pureOutput?: boolean;

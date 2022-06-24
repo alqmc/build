@@ -1,6 +1,6 @@
 {
     "name": "@alqmc/build-vue",
-    "version": "0.0.4",
+    "version": "0.0.5-dev",
     "description": "build vue lib",
     "license": "MIT",
     "main": "./lib/index.js",
@@ -27,7 +27,7 @@
         "vue": "^3.2.25"
     },
     "dependencies": {
-        "@alqmc/build-utils": "^0.0.3",
+        "@alqmc/build-utils": "^0.0.5",
         "@rollup/plugin-commonjs": "^22.0.0",
         "@rollup/plugin-json": "^4.1.0",
         "@rollup/plugin-node-resolve": "^13.2.1",

@@ -30,6 +30,7 @@ export const buildutils = series(
       externalOptions: await getExternal({
         outputPackage: utils.pkgPath,
         extraExternal: ['fs/promises'],
+        includePackages: [],
       }),
     });
   }),

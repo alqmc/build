@@ -21,11 +21,12 @@ export type PluginOptions = {
   plugins: Plugin[];
 };
 export type MergeType = 'prefix' | 'sufix' | 'overlap';
-export interface DefineLibConfig {
+export interface DefineTsConfig {
   baseOptions: BaseOptions;
   pluginOptions?: PluginOptions;
   externalOptions?: ExternalOption;
   extraOptions?: Record<string, any>;
   buildProduct?: BuildProduct[];
   pureOutput?: boolean;
+  includePackages?: string[];
 }
