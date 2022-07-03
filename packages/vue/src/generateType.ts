@@ -68,15 +68,18 @@ export const generateTypesDefinitions = async (
         const { script } = sfc.descriptor;
         if (script) {
           let content = '';
-          let isTS = false;
+          let lang = 'js';
           if (script && script.content) {
             content += script.content;
-            if (script.lang === 'ts' || script.lang === 'tsx') {
-              isTS = true;
+            if (
+              script.lang === 'ts' ||
+              script.lang === 'tsx' ||
+              script.lang === 'jsx'
+            ) {
+              lang = script.lang;
             }
           }
-          const _path =
-            path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js');
+          const _path = `${path.relative(process.cwd(), file)}.${lang}`;
           const sourceFile = project.createSourceFile(_path, content);
 
           sourceFiles.push(sourceFile);

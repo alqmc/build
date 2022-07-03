@@ -1,6 +1,6 @@
 {
     "name": "@alqmc/build-vue",
-    "version": "0.0.5-dev",
+    "version": "0.0.7-dev",
     "description": "build vue lib",
     "license": "MIT",
     "main": "./lib/index.js",
@@ -39,7 +39,7 @@
         "fs-extra": "^10.1.0",
         "rollup": "^2.70.2",
         "rollup-plugin-esbuild": "^4.9.1",
-        "ts-morph": "^14.0.0"
+        "ts-morph": "^15.1.0"
     },
     "devDependencies": {
         "@types/fs-extra": "^9.0.13",
